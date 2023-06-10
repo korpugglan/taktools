@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Collection of functions
 # TODO: Add folder iteration function
+# TODO: Turn into proper package
 
 # Import packages
 import sys
