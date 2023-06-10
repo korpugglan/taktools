@@ -22,11 +22,11 @@ def print_line(print_chars="-", repetition=100):
 
 def select_from_menu(menu_dict, selection_text):
     """Select a value from a dictionary through an input menu.
-            Args:
-                menu_dict (dict): A dictionary containing menu items
-                selection_text (str): A string describing the menu items
-            Returns:
-                selection (str): A key value for the input dictionary
+        Args:
+            menu_dict (dict): A dictionary containing menu items
+            selection_text (str): A string describing the menu items
+        Returns:
+            selection (str): A key value for the input dictionary
     """
     print_line()
     for item in menu_dict:
