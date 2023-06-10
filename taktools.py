@@ -54,9 +54,10 @@ def quit_script():
     print_line("=")
     sys.exit()
 
+
 # Define global variables
 
-
+# Main script
 if __name__ == "__main__":
     print_line("=")
     print("Ciao bella, ciao")

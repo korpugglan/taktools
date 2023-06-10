@@ -19,7 +19,7 @@ def print_line(print_chars="-", repetition=100):
 
 # Define global variables
 
-
+# Main script
 if __name__ == "__main__":
     print_line("=")
     print("Ciao bella, ciao")

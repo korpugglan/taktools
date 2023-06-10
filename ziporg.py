@@ -13,6 +13,7 @@ feat_dict = {"1": "Rename zip files",
              "2": "Unzip and rename into single folder",
              "3": "Unzip and unpack into separate folders"}
 
+# Main script
 if __name__ == "__main__":
     # Welcome text
     tt.print_line("=")

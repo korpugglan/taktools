@@ -16,7 +16,7 @@ from webptools import dwebp
 # image_folder = "C:\\Users\\korpu\\OneDrive\\Skrivbord\\Korpugglan\\Images\\Funny\\to_ship"
 image_folder = "C:/Users/korpu/OneDrive/Skrivbord/Korpugglan/Images/Funny/to_ship"
 
-
+# Main script
 if __name__ == "__main__":
     webp_list = [file for file in os.listdir(image_folder) if file.endswith(".webp")]
     for image in webp_list:
