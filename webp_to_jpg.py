@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 # Convert webp images to jpg
+# WARNING: THE DWEBP PACKAGE DOES NOT WORK IF PYTHON IS INSTALLED IN A FOLDER CONTAINING A SPACE LIKE "PROGRAM FILES"
+# THE IMAGES WILL SIMPLY BE REMOVED
+# TODO: Use folder in which the script is run as default
+# TODO: Add command line flags for local and specific locations to start from
+# TODO: Add subfolder iteration
+# TODO: Find better package to work with Program Files Python installation
+# TODO: Add Windows executable
 
 # Import packages
 import os

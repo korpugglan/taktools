@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Script to batch process and organize zip files
+# TODO: Add settings to update
 # TODO: Add webp to jpg feature
 
 # Import packages
