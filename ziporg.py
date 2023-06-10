@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # Script to batch process and organize zip files
-# TODO: Use folder in which the script is run as default
-# TODO: Add command line flags for local and specific locations to start from
 # TODO: Add subfolder iteration
 # TODO: Add Windows executable
 # TODO: Add webp to jpg feature
@@ -94,13 +92,10 @@ if __name__ == "__main__":
     print("Entering the phrase \"exit\" always quits the script")
 
     # Feature select
-    feat_select = select_from_menu(feat_dict, "a feature")
-    if feat_select == "1":
-        current_path = change_current_start_dir_path()
-        feat_dict["1"] = f"Set different start directory path (currently: \"{current_path}\")"
-
-    feat_select = select_from_menu(feat_dict, "a feature")
-
-    # print(f"{feat_select} selected. This means \"{feat_dict[feat_select]}\"")
-
-    quit_script()
+    while True:
+        feat_select = select_from_menu(feat_dict, "a feature")
+        if feat_select == "1":
+            current_path = change_current_start_dir_path()
+            feat_dict["1"] = f"Set different start directory path (currently: \"{current_path}\")"
+        else:
+            print(f"Option {feat_select} selected: {feat_dict[feat_select]}")
