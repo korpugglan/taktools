@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
-# Collection of common functions
+# Collection of functions
+# TODO: Add folder iteration function
+# TODO: Turn into proper package
+# TODO: webp_to_jpg;
+#   - test Pillow with (partially) transparent background
+#   - add command line flags for local and specific locations to start from
+#   - add subfolder iteration
+#   - add Windows executable or shortcut creator
+
 # Import packages
+import os
+from PIL import Image
 import sys
 
 
@@ -17,20 +27,6 @@ def print_line(print_chars="-", repetition=100):
     return
 
 
-def print_dict_items(menu_dict):
-    """Print all the items in an input menu.
-        Args:
-            menu_dict (dict): A dictionary containing menu items
-        Returns: None
-    """
-    print_line("-")
-    # Print all the menu items
-    for item in menu_dict:
-        print(f"({item}) {menu_dict[item]}")
-    print_line("-")
-    return
-
-
 def print_menu_selection(menu_key, menu_value):
     """Prints a message about menu choice selection.
         Args:
@@ -38,7 +34,7 @@ def print_menu_selection(menu_key, menu_value):
             menu_value (str): The menu selection value.
         Returns: None
     """
-    print_line("-")
+    print_line()
     print(f"Option \"({menu_key}): {menu_value}\" selected.")
     return
 
@@ -51,9 +47,12 @@ def select_from_menu(menu_dict, selection_text="your option"):
         Returns:
             selection (str): A key value for the input dictionary
     """
-    print_dict_items(menu_dict)
-    # Ask to select and return selection if valid
+    print_line()
+    for item in menu_dict:
+        print(f"({item}) {menu_dict[item]}")
+
     while True:
+        print_line()
         selection = input(f"Please select {selection_text} by typing the value in brackets (\"exit\" to quit): ")
         if selection == "exit":
             quit_script()
@@ -74,6 +73,28 @@ def quit_script():
     print("Ciao bella, ciao")
     print_line("=")
     sys.exit()
+
+
+def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
+    """Rewrites all .webp files in a folder to .jpg.
+        Args:
+            image_folder (str): The folder containing the .webp files. Defaults to script location.
+        Returns: None
+    """
+    webp_list = [file for file in os.listdir(image_folder) if file.endswith(".webp")]
+    for webp_image in webp_list:
+        # Set file paths for input and output
+        input_file_path = os.path.join(image_folder, webp_image)
+        output_file_path = os.path.join(image_folder, webp_image[:-5] + ".jpg")
+
+        # Load .webp file and write as .jpg
+        input_image = Image.open(input_file_path)
+        input_image = input_image.convert("RGB")
+        input_image.save(output_file_path, format="JPEG")
+
+        # Remove input image
+        os.remove(input_file_path)
+    return
 
 
 # Main script
