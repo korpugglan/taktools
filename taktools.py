@@ -4,6 +4,7 @@
 # TODO: Turn into proper package
 # TODO: webp_to_jpg;
 #   - fix webp file removal if package does not work + comments (better package?)
+#       - https://stackoverflow.com/questions/19860639/convert-images-to-webp-using-pillow
 #   - add command line flags for local and specific locations to start from
 #   - add subfolder iteration
 #   - add Windows executable or shortcut creator

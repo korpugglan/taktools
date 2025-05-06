@@ -2,6 +2,7 @@
 # TODO: group scripts into this one
 # TODO: todo's in taktools.py
 # TODO: add flags for menu options
+# TODO: add ASCII art
 
 # Import packages
 import os
@@ -27,7 +28,6 @@ if __name__ == "__main__":
     while True:
         selected_option = tt.select_from_menu(feat_dict)
         if selected_option == "1":
-            # TODO: print selected option started dynamically
             tt.webp_to_jpg(image_folder=current_path)
 
         # if selected_option == "1":
