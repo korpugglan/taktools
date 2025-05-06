@@ -34,7 +34,7 @@ def select_from_menu(menu_dict, selection_text):
 
     while True:
         print_line()
-        selection = input(f"Please select {selection_text} by typing the value in brackets: ")
+        selection = input(f"Please select {selection_text} by typing the value in brackets (or \"exit\" to quit): ")
         if selection == "exit":
             quit_script()
         elif selection not in menu_dict:
