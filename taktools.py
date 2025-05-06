@@ -27,7 +27,7 @@ def print_line(print_chars="-", repetition=100):
     return
 
 
-def select_from_menu(menu_dict, selection_text):
+def select_from_menu(menu_dict, selection_text="your option"):
     """Select a value from a dictionary through an input menu.
         Args:
             menu_dict (dict): A dictionary containing menu items
@@ -41,7 +41,7 @@ def select_from_menu(menu_dict, selection_text):
 
     while True:
         print_line()
-        selection = input(f"Please select {selection_text} by typing the value in brackets (or \"exit\" to quit): ")
+        selection = input(f"Please select {selection_text} by typing the value in brackets (\"exit\" to quit): ")
         if selection == "exit":
             quit_script()
         elif selection not in menu_dict:

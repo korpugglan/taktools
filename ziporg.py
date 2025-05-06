@@ -11,6 +11,7 @@
 # Import packages
 import os
 import sys
+import taktools
 import zipfile
 
 
@@ -28,42 +29,6 @@ def change_current_start_dir_path():
         else:
             print_line()
             print("Invalid input. Path is not an accessible directory. Please try again or type \"exit\"")
-
-
-def print_line(print_chars="-", repetition=100):
-    """Prints an amount of strings in a row.
-        Args:
-            print_chars (str): The string to print repeatedly.
-            repetition (int): The amount of times the string is printed.
-        Returns:
-            None
-    """
-    print(print_chars * repetition)
-    return
-
-
-def select_from_menu(menu_dict, selection_text):
-    """Select a value from a dictionary through an input menu.
-        Args:
-            menu_dict (dict): A dictionary containing menu items
-            selection_text (str): A string describing the menu items
-        Returns:
-            selection (str): A key value for the input dictionary
-    """
-    print_line()
-    for item in menu_dict:
-        print(f"({item}) {menu_dict[item]}")
-
-    while True:
-        print_line()
-        selection = input(f"Please select {selection_text} by typing the value in brackets: ")
-        if selection == "exit":
-            quit_script()
-        elif selection not in menu_dict:
-            print_line()
-            print("Invalid input. Please select a value from the list or type \"exit\"")
-        else:
-            return selection
 
 
 def unpack_zip_files_separately(start_dir):
@@ -112,32 +77,8 @@ def unpack_zip_files_separately(start_dir):
     return
 
 
-def quit_script():
-    """Prints a message and quits the script.
-        Args: None
-        Returns: None
-    """
-    print_line("=")
-    print("Ciao bella, ciao")
-    print_line("=")
-    sys.exit()
-
-
-# Define global variables
-current_path = os.path.abspath(os.path.dirname(__file__))
-feat_dict = {"1": f"Set different start directory path (currently: \"{current_path}\")",
-             "2": "Unzip and unpack into separate directories",
-             "3": "Rename zip files",
-             "4": "Unzip and rename into single directory",
-             "5": "Convert .webp files to .jpg in directory and subdirectories"}
-
-
 # Main script
 if __name__ == "__main__":
-    # Welcome text
-    print_line("=")
-    print("Welcome to ZIPORG")
-    print("Entering the phrase \"exit\" always quits the script")
 
     # Feature select
     while True:
