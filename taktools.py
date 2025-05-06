@@ -2,10 +2,17 @@
 # Collection of functions
 # TODO: Add folder iteration function
 # TODO: Turn into proper package
+# TODO: webp_to_jpg;
+#   - fix webp file removal if package does not work + comments (better package?)
+#   - add command line flags for local and specific locations to start from
+#   - add subfolder iteration
+#   - add Windows executable or shortcut creator
 
 # Import packages
+import os
 import sys
-
+# WARNING: if Python is installed in a folder containing spaces like "Program Files" dwebp does not work
+from webptools import dwebp
 
 # Define functions
 def print_line(print_chars="-", repetition=100):
@@ -53,6 +60,23 @@ def quit_script():
     print("Ciao bella, ciao")
     print_line("=")
     sys.exit()
+
+
+def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
+    """Rewrites all .webp files in a folder to .jpg.
+        Args:
+            image_folder (str): The folder containing the .webp files. Defaults to script location
+        Returns: None
+    """
+    # WARNING: if the dwebp package does not work, images will simply be removed
+    webp_list = [file for file in os.listdir(image_folder) if file.endswith(".webp")]
+    for webp_image in webp_list:
+        input_image = os.path.join(image_folder, webp_image)
+        output_image = os.path.join(image_folder, webp_image[:-5] + ".jpg")
+        dwebp(input_image=input_image, output_image=output_image, option="-o")  # logging="-v")
+        os.remove(input_image)
+
+    return
 
 
 # Define global variables
