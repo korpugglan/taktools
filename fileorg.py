@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# TODO: group scripts into this one
+# TODO: todo's in taktools.py
+# TODO: add flags for menu options
+
 # Import packages
 import taktools as tt
 
