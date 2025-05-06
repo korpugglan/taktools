@@ -27,6 +27,18 @@ def print_line(print_chars="-", repetition=100):
     return
 
 
+def print_menu_selection(menu_key, menu_value):
+    """Prints a message about menu choice selection.
+        Args:
+            menu_key (str): The menu selection key.
+            menu_value (str): The menu selection value.
+        Returns: None
+    """
+    print_line()
+    print(f"Option \"({menu_key}): {menu_value}\" selected.")
+    return
+
+
 def select_from_menu(menu_dict, selection_text="your option"):
     """Select a value from a dictionary through an input menu.
         Args:
@@ -48,6 +60,7 @@ def select_from_menu(menu_dict, selection_text="your option"):
             print_line()
             print("Incorrect input. Please select a value from the list or type \"exit\"")
         else:
+            print_menu_selection(selection, menu_dict[selection])
             return selection
 
 
