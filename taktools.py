@@ -3,17 +3,16 @@
 # TODO: Add folder iteration function
 # TODO: Turn into proper package
 # TODO: webp_to_jpg;
-#   - fix webp file removal if package does not work + comments (better package?)
-#       - https://stackoverflow.com/questions/19860639/convert-images-to-webp-using-pillow
+#   - test Pillow with (partially) transparent background
 #   - add command line flags for local and specific locations to start from
 #   - add subfolder iteration
 #   - add Windows executable or shortcut creator
 
 # Import packages
 import os
+from PIL import Image
 import sys
-# WARNING: if Python is installed in a folder containing spaces like "Program Files" dwebp does not work
-from webptools import dwebp
+
 
 # Define functions
 def print_line(print_chars="-", repetition=100):
@@ -79,25 +78,25 @@ def quit_script():
 def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
     """Rewrites all .webp files in a folder to .jpg.
         Args:
-            image_folder (str): The folder containing the .webp files. Defaults to script location
+            image_folder (str): The folder containing the .webp files. Defaults to script location.
         Returns: None
     """
-    # WARNING: if the dwebp package does not work, images will simply be removed
     webp_list = [file for file in os.listdir(image_folder) if file.endswith(".webp")]
     for webp_image in webp_list:
-        input_image = os.path.join(image_folder, webp_image)
-        output_image = os.path.join(image_folder, webp_image[:-5] + ".jpg")
-        dwebp(input_image=input_image, output_image=output_image, option="-o")  # logging="-v")
-        os.remove(input_image)
+        # Set file paths for input and output
+        input_file_path = os.path.join(image_folder, webp_image)
+        output_file_path = os.path.join(image_folder, webp_image[:-5] + ".jpg")
 
+        # Load .webp file and write as .jpg
+        input_image = Image.open(input_file_path)
+        input_image = input_image.convert("RGB")
+        input_image.save(output_file_path, format="JPEG")
+
+        # Remove input image
+        os.remove(input_file_path)
     return
 
 
-# Define global variables
-
 # Main script
 if __name__ == "__main__":
-    print_line("=")
-    print("Ciao bella, ciao")
-    print_line("=")
-    sys.exit()
+    quit_script()

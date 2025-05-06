@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# TODO: add option to change path manually from ziporg.py
 # TODO: group scripts into this one
 # TODO: todo's in taktools.py
 # TODO: add flags for menu options
@@ -29,6 +30,8 @@ if __name__ == "__main__":
         selected_option = tt.select_from_menu(feat_dict)
         if selected_option == "1":
             tt.webp_to_jpg(image_folder=current_path)
+        else:
+            break
 
         # if selected_option == "1":
         #     current_path = change_current_start_dir_path()
