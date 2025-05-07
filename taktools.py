@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 # Collection of functions
-# TODO: Add folder iteration function
-# TODO: Turn into proper package
-# TODO: webp_to_jpg;
-#   - test Pillow with (partially) transparent background
-#   - add command line flags for local and specific locations to start from
-#   - add subfolder iteration option
-#   - add Windows executable or shortcut creator
 
 # Import packages
+from glob import iglob
 import os
 from PIL import Image
 import sys
@@ -24,6 +18,20 @@ def print_line(print_chars="-", repetition=100):
             None
     """
     print(print_chars * repetition)
+    return
+
+
+def print_dict_items(menu_dict):
+    """Print all the items in an input menu.
+        Args:
+            menu_dict (dict): A dictionary containing menu items
+        Returns: None
+    """
+    print_line("-")
+    # Print all the menu items
+    for item in menu_dict:
+        print(f"({item}) {menu_dict[item]}")
+    print_line("-")
     return
 
 
@@ -47,14 +55,9 @@ def select_from_menu(menu_dict, selection_text="your option"):
         Returns:
             selection (str): A key value for the input dictionary
     """
-    print_line("=")
-    # Print all the menu items
-    for item in menu_dict:
-        print(f"({item}) {menu_dict[item]}")
-
+    print_dict_items(menu_dict)
     # Ask to select and return selection if valid
     while True:
-        print_line("=")
         selection = input(f"Please select {selection_text} by typing the value in brackets (\"exit\" to quit): ")
         if selection == "exit":
             quit_script()
@@ -97,11 +100,35 @@ def update_path(current_path):
             print_line()
             # TODO: add tips about OS specific writing methods
             print("Invalid input. Path is not an accessible directory. Please try again.\n"
-                  "Tip: Based on your OS you may need to use /, \ or \\" + "\\.\n"
+                  "Tip: Based on your OS you may need to use /, \\ or \\\\.\n"
                   "Tip: Make sure you have access to the path.\n")
 
 
-def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
+def webp_to_jpg(main_folder, use_subfolders=False):
+    """Converts all .webp files in a folder to .jpg.
+        Args:
+            main_folder (str): The folder containing the .webp files.
+            use_subfolders (bool): Whether to iterate over subfolders too. Defaults to False.
+        Returns: None
+    """
+    folder_list = []
+    if not use_subfolders:
+        folder_list = [main_folder]
+    elif use_subfolders:
+        main_folder_glob = str(main_folder) + "/**/*"
+        folder_list = [f for f in iglob(main_folder_glob, recursive=True) if os.path.isdir(f)]
+        folder_list.insert(0, main_folder)
+    else:
+        print(f"WTF: use_subfolders is set to {use_subfolders}")
+
+    for folder in folder_list:
+        webp_to_jpg_single_folder(folder)
+
+    print(f"Operation completed successfully.")
+    return
+
+
+def webp_to_jpg_single_folder(image_folder):
     """Converts all .webp files in a folder to .jpg.
         Args:
             image_folder (str): The folder containing the .webp files. Defaults to script location.
@@ -122,7 +149,6 @@ def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
         # Remove input image
         os.remove(input_file_path)
 
-    print(f"Operation completed successfully.")
     return
 
 
