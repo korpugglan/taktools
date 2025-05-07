@@ -1,30 +1,29 @@
 #!/usr/bin/env python3
-# TODO: group scripts into this one
-# TODO: todo's in taktools.py
-# TODO: add flags for menu options + settings overwrite
-# TODO: show current settings in menu
-# TODO: add ASCII art
-# TODO: make exit exit everywhere elegantly
-# TODO: Add file name cleaning (~, .., double spaces, trimming)
-# TODO: Add subdirectory iteration
-# TODO: Add Windows executable
-# TODO: Add webp to jpg feature
-# TODO: Find better package to work with Program Files Python installation
-# TODO: Proper refactor
-# TODO: Add folder iteration function
-# TODO: Turn into proper package
+# TODO: process ziporg.py
+#   - Fix file name cleaning (~, .., double spaces, trimming)
 # TODO: webp_to_jpg;
 #   - test Pillow with (partially) transparent background
 #   - add command line flags for local and specific locations to start from
 #   - add subfolder iteration option
 #   - add Windows executable or shortcut creator
-# TODO: fix lines and layout
-# TODO: group print items
-# TODO: move settings option to submenu
-# TODO: make menu selection in this script dynamic
-# TODO: make warning messages for redundant else statements
-# TODO: add progress bar function to taktools and implement where cool
-# TODO: webp_to_jpg fix overwriting existing files
+#   - fix overwriting existing files
+# TODO: visual
+#   - show current settings in menu
+#   - add ASCII art
+#   - fix lines and layout
+#   - add progress bar function to taktools and implement where cool
+# TODO: added functionality
+#   - Add prompt flags for options
+#   - Add Windows executable
+# TODO: Refactoring
+#   - Proper refactor
+#   - make exit exit everywhere elegantly
+#   - Turn into proper package
+#   - group print items in taktools.py
+#   - move settings option to submenu
+#   - make menu selection in this script dynamic
+#   - make warning messages for redundant else statements
+#   - Proper refactor
 
 # Import packages
 from glob import iglob

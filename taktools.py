@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # Collection of common functions
-
 # Import packages
-import os
 import sys
 
 
