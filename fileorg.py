@@ -6,11 +6,18 @@
 # TODO: add flags for menu options + settings overwrite
 # TODO: show current settings in menu
 # TODO: add ASCII art
+# TODO: make exit exit everywhere elegantly
+# TODO: Add file name cleaning (~, .., double spaces, trimming)
+# TODO: Add subdirectory iteration
+# TODO: Add Windows executable
+# TODO: Add webp to jpg feature
+# TODO: Find better package to work with Program Files Python installation
+# TODO: Proper refactor
 
 # Import packages
 import os
 import taktools as tt
-
+from taktools import update_path
 
 # Define functions
 
@@ -18,7 +25,7 @@ import taktools as tt
 current_path = os.path.abspath(os.path.dirname(__file__))
 feat_dict = {"1": "Convert .webp files to .jpg in directory and subdirectories",
              "exit": "Quit the script",
-             "a": f"Set different working folder path (currently: \"{current_path}\")"}
+             "a": f"Set different working folder path"}
 
 # feat_dict = {"1": f"Set different start directory path (currently: \"{current_path}\")",
 #              "2": "Unzip and unpack into separate directories",
@@ -27,15 +34,16 @@ feat_dict = {"1": "Convert .webp files to .jpg in directory and subdirectories",
 #              "5": "Convert .webp files to .jpg in directory and subdirectories"}
 
 if __name__ == "__main__":
-    tt.print_line("=")
-    print("Welcome to the Johnny Aschenbecher file organization tool")
     while True:
+        print("\n")
+        tt.print_line("=")
+        print("Johnny Aschenbecher file organization tool")
         selected_option = tt.select_from_menu(feat_dict)
         if selected_option == "1":
             tt.webp_to_jpg(image_folder=current_path)
         elif selected_option == "a":
-            current_path = input(f"Please enter the full folder path: ")
-            print(f"Folder path has been set to {current_path}.")
+            current_path = tt.update_path(current_path)
+            feat_dict = feat_dict
         else:
             break
 
