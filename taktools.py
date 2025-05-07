@@ -5,7 +5,7 @@
 # TODO: webp_to_jpg;
 #   - test Pillow with (partially) transparent background
 #   - add command line flags for local and specific locations to start from
-#   - add subfolder iteration
+#   - add subfolder iteration option
 #   - add Windows executable or shortcut creator
 
 # Import packages
@@ -34,7 +34,7 @@ def print_menu_selection(menu_key, menu_value):
             menu_value (str): The menu selection value.
         Returns: None
     """
-    print_line()
+    print_line("-")
     print(f"Option \"({menu_key}): {menu_value}\" selected.")
     return
 
@@ -47,12 +47,12 @@ def select_from_menu(menu_dict, selection_text="your option"):
         Returns:
             selection (str): A key value for the input dictionary
     """
-    print_line()
+    print_line("=")
     for item in menu_dict:
         print(f"({item}) {menu_dict[item]}")
 
     while True:
-        print_line()
+        print_line("=")
         selection = input(f"Please select {selection_text} by typing the value in brackets (\"exit\" to quit): ")
         if selection == "exit":
             quit_script()
@@ -76,11 +76,12 @@ def quit_script():
 
 
 def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
-    """Rewrites all .webp files in a folder to .jpg.
+    """Converts all .webp files in a folder to .jpg.
         Args:
             image_folder (str): The folder containing the .webp files. Defaults to script location.
         Returns: None
     """
+    print(f"Converting all .webp files in {image_folder} to .jpg.")
     webp_list = [file for file in os.listdir(image_folder) if file.endswith(".webp")]
     for webp_image in webp_list:
         # Set file paths for input and output
@@ -94,6 +95,8 @@ def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):
 
         # Remove input image
         os.remove(input_file_path)
+
+    print(f"Operation completed successfully.")
     return
 
 

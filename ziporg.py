@@ -28,6 +28,7 @@ def change_current_start_dir_path():
             return new_path
         else:
             print_line()
+            # TODO: add tips about OS specific writing methods
             print("Invalid input. Path is not an accessible directory. Please try again or type \"exit\"")
 
 
