@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # TODO: process ziporg.py
+#   - Test the unzip functionality
+#   - Refactor unzip
 #   - Choice to group zips or not
 #   - Fix file name cleaning (~, .., double spaces, trimming)
 # TODO: webp_to_jpg;
@@ -32,59 +34,88 @@ from glob import iglob
 import os
 from PIL import Image
 import taktools as tt
+import zipfile
 
 # Define functions
-def unzip_and_rename(main_folder):
+def unzip_and_rename(main_folder, char_limit):
+    # Set up variables
+    ext = ".zip"
+    ext_len = len(ext)
+    del_char_list = [".", ",", "  "]
+    zip_file_list = [file for file in os.listdir(main_folder) if file.endswith(".zip")]
 
+    # Loop through each zip file
+    for file_name in zip_file_list:
+        # Create a cleaned version of the zip file name
+        trunc_name = file_name[:-ext_len]
+        # Remove nasty characters
+        for del_char in del_char_list:
+            while True:
+                if del_char in trunc_name:
+                    trunc_name = trunc_name.replace(del_char, "")
+                else:
+                    break
+        # Trim the name
+        trunc_name = trunc_name.strip()
+        # Shorten the name to the max length. - 1 for reuse in file extensions with more characters than ext_len.
+        trunc_name = trunc_name[:(char_limit - ext_len - 1)]
 
+        # Create folder to unzip to if it does not exist. Skip if it does.
+        new_dir_path = os.path.join(main_folder, trunc_name)
+        if os.path.isdir(new_dir_path):
+            print(f"WARNING: Folder {new_dir_path} already exists. Unzipping skipped.")
+            continue
+        else:
+            os.makedirs(new_dir_path)
 
+        # Unzip the contents of the zip file to the new folder
+        zipfile.ZipFile(file_name).extractall(path=str(new_dir_path))
 
-    # max_zip_file_name_len = 64
-    # del_char_list = ["~", ".", ",", "!", "@", "#", "$"]
-    #
-    # zip_file_list = [file for file in os.listdir(start_dir) if file.endswith(".zip")]
-    # for zip_file_name in zip_file_list:
-    #     new_zip_file_name = zip_file_name[:-len(".zip")]
-    #     for del_char in del_char_list:
-    #         new_zip_file_name = new_zip_file_name.replace(del_char, "")
-    #     while True:
-    #         if "  " in new_zip_file_name:
-    #             new_zip_file_name = new_zip_file_name.replace("  ", "")
-    #         else:
-    #             break
-    #     new_zip_file_name = new_zip_file_name.strip()
-    #     new_zip_file_name = new_zip_file_name[:max_zip_file_name_len] + ".zip"
-    #     os.rename(os.path.join(start_dir, zip_file_name),
-    #               os.path.join(start_dir, new_zip_file_name))
-    #     zip_file_name = new_zip_file_name
-    #
-    #     full_zip_file_path = os.path.join(start_dir, zip_file_name)
-    #     zip_dir_name = zip_file_name[:-4]
-    #
-    #     full_zip_dir_path = os.path.join(start_dir, zip_dir_name)
-    #     while True:
-    #         if os.path.isdir(full_zip_dir_path):
-    #             copy_dir_text = "-COPY"
-    #             print(f"WARNING! Directory \"{full_zip_dir_path}\" exists. "
-    #                   f"Adding \"{copy_dir_text}\" to directory name")
-    #             full_zip_dir_path = os.path.join(start_dir, zip_dir_name + copy_dir_text)
-    #         else:
-    #             break
-    #     os.mkdir(full_zip_dir_path)
-    #
-    #     zipfile.ZipFile(full_zip_file_path).extractall(path=full_zip_dir_path)
-    #
-    #     unpacked_file_list = os.listdir(full_zip_dir_path)
-    #     for unpacked_file_name in unpacked_file_list:
-    #         os.rename(os.path.join(full_zip_dir_path, unpacked_file_name),
-    #                   os.path.join(full_zip_dir_path, zip_dir_name + "-" + unpacked_file_name))
-    #
-    #     os.replace(full_zip_file_path, os.path.join(full_zip_dir_path, zip_file_name))
+        # Rename the unzipped files to include the trunc_name
+        unzip_files = os.listdir(str(new_dir_path))
 
+        # Find length of longest file name to determine cutoff
+        longest_file_name = max(unzip_files, key=len)
+        if len(trunc_name + "-" + longest_file_name) > char_limit:
+            zip_idx_ext = longest_file_name.rfind(".")
+            zip_ext = longest_file_name[zip_idx_ext:]
+            cutoff = char_limit - len(zip_ext)
+        else:
+            cutoff = -1
 
+        # Rename the files
+        for unzip_file in unzip_files:
+            # Create new file name
+            new_unzip_file = trunc_name[:cutoff] + "-" + unzip_file
+            # Rename file
+            os.rename(os.path.join(str(new_dir_path), str(unzip_file)),
+                      os.path.join(str(new_dir_path), new_unzip_file))
 
+        # Move old zip file to a renamed version in new folder
+        os.replace(file_name, os.path.join(new_dir_path, trunc_name + ext))
 
     return
+
+
+def update_char_limit(current_limit):
+    """Updates the character limit after validation .
+        Args:
+            current_limit (int): The input character limit.
+        Returns:
+            new_limit (int): The updated and validated character limit.
+    """
+    while True:
+        # Register new path
+        new_limit = input(f"The file name character limit is \"{current_limit}\". Please enter the new limit: ")
+        # Return limit if it is valid
+        try:
+            new_limit = int(new_limit)
+            print(f"File path character limit changed to \"{new_limit}\".")
+            return new_limit
+        # Ask to fix the limit if not an int
+        except ValueError:
+            tt.print_line()
+            print("Invalid input. Only integers are allowed. Please try again.")
 
 
 def update_path(current_path):
@@ -92,7 +123,7 @@ def update_path(current_path):
         Args:
             current_path (str): The input path
         Returns:
-            new_path (str): The updated and validated path
+            new_path (str): The updated and validated path.
     """
     while True:
         # Register new path
@@ -105,7 +136,6 @@ def update_path(current_path):
         # Ask to fix the path if invalid
         else:
             tt.print_line()
-            # TODO: add tips about OS specific writing methods
             print("Invalid input. Path is not an accessible directory. Please try again.\n"
                   "Tip: Based on your OS you may need to use /, \\ or \\\\.\n"
                   "Tip: Make sure you have access to the path.\n")
@@ -162,13 +192,15 @@ def webp_to_jpg_single_folder(image_folder):
 # Define global variables
 settings = {"current_path": os.path.abspath(os.path.dirname(__file__)),
             "use_subfolders": False,
-            "unzip_into_single_folder": False,}
+            "unzip_into_single_folder": False,
+            "file_name_character_limit": 255,}
 menu = {"1": "Convert .webp files to .jpg in folder",
         "2": "Unzip and rename with zipfile prefix",
         "exit": "Quit the script",
         "a": "View current settings",
         "b": "Set different working folder path",
-        "c": "Set iterating over subfolders",}
+        "c": "Set iterating over subfolders",
+        "d": "Set file name character limit"}
 
 
 if __name__ == "__main__":
@@ -179,7 +211,7 @@ if __name__ == "__main__":
         if selected_option == "1":
             webp_to_jpg(main_folder=settings["current_path"], use_subfolders=settings["use_subfolders"])
         elif selected_option == "2":
-            unzip_and_rename(main_folder=settings["current_path"])
+            unzip_and_rename(main_folder=settings["current_path"], char_limit=settings["file_name_character_limit"])
         elif selected_option == "exit":
             tt.quit_script()
         elif selected_option == "a":
@@ -189,6 +221,8 @@ if __name__ == "__main__":
         elif selected_option == "c":
             settings["use_subfolders"] = not settings["use_subfolders"]
             print(f"use_subfolders is set to {settings['use_subfolders']}")
+        elif selected_option == "d":
+            settings["file_name_character_limit"] = update_char_limit(settings["file_name_character_limit"])
         else:
             break
 
