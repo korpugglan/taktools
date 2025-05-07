@@ -48,9 +48,11 @@ def select_from_menu(menu_dict, selection_text="your option"):
             selection (str): A key value for the input dictionary
     """
     print_line("=")
+    # Print all the menu items
     for item in menu_dict:
         print(f"({item}) {menu_dict[item]}")
 
+    # Ask to select and return selection if valid
     while True:
         print_line("=")
         selection = input(f"Please select {selection_text} by typing the value in brackets (\"exit\" to quit): ")
@@ -73,6 +75,30 @@ def quit_script():
     print("Ciao bella, ciao")
     print_line("=")
     sys.exit()
+
+
+def update_path(current_path):
+    """Updates an OS path after validation .
+        Args:
+            current_path (str): The input path
+        Returns:
+            new_path (str): The updated and validated path
+    """
+    while True:
+        # Register new path
+        new_path_str = input(f"The current path is \"{current_path}\". Please enter the new path: ")
+        new_path = os.fspath(new_path_str)
+        # Return path if it is valid
+        if os.path.isdir(new_path):
+            print(f"Path changed to \"{new_path}\"")
+            return new_path
+        # Ask to fix the path if invalid
+        else:
+            print_line()
+            # TODO: add tips about OS specific writing methods
+            print("Invalid input. Path is not an accessible directory. Please try again.\n"
+                  "Tip: Based on your OS you may need to use /, \ or \\" + "\\.\n"
+                  "Tip: Make sure you have access to the path.\n")
 
 
 def webp_to_jpg(image_folder=os.path.dirname(os.path.abspath(__file__))):

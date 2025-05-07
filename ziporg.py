@@ -1,36 +1,8 @@
 #!/usr/bin/env python3
 # Script to batch process and organize zip files
-# TODO: Add file name cleaning (~, .., double spaces, trimming)
-# TODO: Add subdirectory iteration
-# TODO: Add Windows executable
-# TODO: Add webp to jpg feature
-# TODO: Find better package to work with Program Files Python installation
-# TODO: Proper refactor
-
-
-# Import packages
-import os
-import sys
-import taktools
-import zipfile
 
 
 # Define functions
-def change_current_start_dir_path():
-    while True:
-        print_line()
-        input_path = input(f"Please enter the new path: ")
-        if input_path == "exit":
-            quit_script()
-        new_path = os.fspath(input_path)
-        if os.path.isdir(new_path):
-            print(f"Path changed to \"{new_path}\"")
-            return new_path
-        else:
-            print_line()
-            # TODO: add tips about OS specific writing methods
-            print("Invalid input. Path is not an accessible directory. Please try again or type \"exit\"")
-
 
 def unpack_zip_files_separately(start_dir):
     max_zip_file_name_len = 64
