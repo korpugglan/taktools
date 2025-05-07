@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-# Script to batch process and organize zip files
-
-
-# Define functions
 
 def unpack_zip_files_separately(start_dir):
     max_zip_file_name_len = 64
@@ -50,16 +45,3 @@ def unpack_zip_files_separately(start_dir):
     return
 
 
-# Main script
-if __name__ == "__main__":
-
-    # Feature select
-    while True:
-        feat_select = select_from_menu(feat_dict, "a feature")
-        if feat_select == "1":
-            current_path = change_current_start_dir_path()
-            feat_dict["1"] = f"Set different start directory path (currently: \"{current_path}\")"
-        elif feat_select == "2":
-            unpack_zip_files_separately(current_path)
-        else:
-            print(f"Option {feat_select} selected: {feat_dict[feat_select]}")

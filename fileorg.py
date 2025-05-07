@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # TODO: process ziporg.py
+#   - Choice to group zips or not
 #   - Fix file name cleaning (~, .., double spaces, trimming)
 # TODO: webp_to_jpg;
 #   - test Pillow with (partially) transparent background
@@ -13,6 +14,7 @@
 #   - fix lines and layout
 #   - add progress bar function to taktools and implement where cool
 # TODO: added functionality
+#   - rename zip files in folder
 #   - Add prompt flags for options
 #   - Add Windows executable
 # TODO: Refactoring
@@ -32,6 +34,59 @@ from PIL import Image
 import taktools as tt
 
 # Define functions
+def unzip_and_rename(main_folder):
+
+
+
+
+    # max_zip_file_name_len = 64
+    # del_char_list = ["~", ".", ",", "!", "@", "#", "$"]
+    #
+    # zip_file_list = [file for file in os.listdir(start_dir) if file.endswith(".zip")]
+    # for zip_file_name in zip_file_list:
+    #     new_zip_file_name = zip_file_name[:-len(".zip")]
+    #     for del_char in del_char_list:
+    #         new_zip_file_name = new_zip_file_name.replace(del_char, "")
+    #     while True:
+    #         if "  " in new_zip_file_name:
+    #             new_zip_file_name = new_zip_file_name.replace("  ", "")
+    #         else:
+    #             break
+    #     new_zip_file_name = new_zip_file_name.strip()
+    #     new_zip_file_name = new_zip_file_name[:max_zip_file_name_len] + ".zip"
+    #     os.rename(os.path.join(start_dir, zip_file_name),
+    #               os.path.join(start_dir, new_zip_file_name))
+    #     zip_file_name = new_zip_file_name
+    #
+    #     full_zip_file_path = os.path.join(start_dir, zip_file_name)
+    #     zip_dir_name = zip_file_name[:-4]
+    #
+    #     full_zip_dir_path = os.path.join(start_dir, zip_dir_name)
+    #     while True:
+    #         if os.path.isdir(full_zip_dir_path):
+    #             copy_dir_text = "-COPY"
+    #             print(f"WARNING! Directory \"{full_zip_dir_path}\" exists. "
+    #                   f"Adding \"{copy_dir_text}\" to directory name")
+    #             full_zip_dir_path = os.path.join(start_dir, zip_dir_name + copy_dir_text)
+    #         else:
+    #             break
+    #     os.mkdir(full_zip_dir_path)
+    #
+    #     zipfile.ZipFile(full_zip_file_path).extractall(path=full_zip_dir_path)
+    #
+    #     unpacked_file_list = os.listdir(full_zip_dir_path)
+    #     for unpacked_file_name in unpacked_file_list:
+    #         os.rename(os.path.join(full_zip_dir_path, unpacked_file_name),
+    #                   os.path.join(full_zip_dir_path, zip_dir_name + "-" + unpacked_file_name))
+    #
+    #     os.replace(full_zip_file_path, os.path.join(full_zip_dir_path, zip_file_name))
+
+
+
+
+    return
+
+
 def update_path(current_path):
     """Updates an OS path after validation .
         Args:
@@ -106,18 +161,15 @@ def webp_to_jpg_single_folder(image_folder):
 
 # Define global variables
 settings = {"current_path": os.path.abspath(os.path.dirname(__file__)),
-            "use_subfolders": False,}
+            "use_subfolders": False,
+            "unzip_into_single_folder": False,}
 menu = {"1": "Convert .webp files to .jpg in folder",
+        "2": "Unzip and rename with zipfile prefix",
         "exit": "Quit the script",
         "a": "View current settings",
         "b": "Set different working folder path",
         "c": "Set iterating over subfolders",}
 
-# feat_dict = {
-#              "2": "Unzip and unpack into separate directories",
-#              "3": "Rename zip files",
-#              "4": "Unzip and rename into single directory",
-#              "5": "Convert .webp files to .jpg in directory and subdirectories"}
 
 if __name__ == "__main__":
     while True:
@@ -126,6 +178,8 @@ if __name__ == "__main__":
         selected_option = tt.select_from_menu(menu)
         if selected_option == "1":
             webp_to_jpg(main_folder=settings["current_path"], use_subfolders=settings["use_subfolders"])
+        elif selected_option == "2":
+            unzip_and_rename(main_folder=settings["current_path"])
         elif selected_option == "exit":
             tt.quit_script()
         elif selected_option == "a":
@@ -137,10 +191,6 @@ if __name__ == "__main__":
             print(f"use_subfolders is set to {settings['use_subfolders']}")
         else:
             break
-
-
-        # elif feat_select == "2":
-        #     unpack_zip_files_separately(current_path)
 
 
     tt.quit_script()
