@@ -10,11 +10,10 @@
 
 # Import packages
 import os
-from webptools import dwebp
+from PIL import Image
 
 # Define global variables
-# image_folder = "C:\\Users\\korpu\\OneDrive\\Skrivbord\\Korpugglan\\Images\\Funny\\to_ship"
-image_folder = "C:/Users/korpu/OneDrive/Skrivbord/Korpugglan/Images/Funny/to_ship"
+image_folder = "/home/korpugglan/Desktop/to_ship"
 
 # Main script
 if __name__ == "__main__":
@@ -22,5 +21,9 @@ if __name__ == "__main__":
     for image in webp_list:
         input_image = os.path.join(image_folder, image)
         output_image = os.path.join(image_folder, image[:-5] + ".jpg")
-        dwebp(input_image=input_image, output_image=output_image, option="-o")  # logging="-v")
+        # Open the WEBP image
+        with Image.open(input_image) as img:
+            # Convert and save as JPG
+            img.convert("RGB").save(output_image, "JPEG", quality=95)
+        # Remove input image
         os.remove(input_image)
